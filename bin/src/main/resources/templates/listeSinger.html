@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{template}" xmlns:sec=https://www.thymeleaf.org/thymeleaf-extras-springsecurity5>
+      <link rel="stylesheet" type="text/css"
+href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css"href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css" />
+<head>
+<meta charset="utf-8">
+<title>Singers</title>
+</head>
+<body>
+<div layout:fragment="Mycontent">
+<div class="container mt-5">
+<div class="card">
+<div class="card-header">
+<h3><b><center>Singers</center></b></h3>
+</div>
+<div class="card-body">
+    <table align='center' width='100%'><tr><td>
+                <form class="search-box" th:action="@{search}" method="GET">
+                    </aside>
+                  
+                    <div class="form-group"> 
+                    <label class="control-label">Search by Singer's name' :</label>
+                    <input type="search" id="myInput" name='nom' class="form-control" placeholder="Chercher Nom Singer..." th:value="${nom}" />
+           
+          
+                    </div>
+                    </aside>
+                </form>
+                </td>
+                <td></td> <td></td> <td></td>
+<td>
+           <form class="search-box" th:action="@{searchBand}" method="GET">
+                    </aside> 
+              
+                    <div class="form-group"> 
+<label class="control-label">Search by Band :</label>
+ <select name="band" class="form-control" th:if= "${!#strings.isEmpty(bands)}" onchange="this.form.submit()" required>  
+  <option th:value="0" selected> -- Select a band --</option>
+ <option th:each="b : ${bands}" th:value="${b.idBand}" th:text="${b.nomBand}"></option>
+ </select>
+                    </div>
+                    </aside>
+                </form>
+             </td></tr></table>
+
+
+
+<table class="table table-striped">
+<tr>
+<th>ID</th><th>Last-Name</th><th>First-Name</th><th>Birth-Date</th><th>Band</th><th sec:authorize="hasRole('ADMIN')"></th>
+</tr>
+<tr th:each="p:${singers}">
+<td th:text="${p.idSinger}"></td>
+<td th:text="${p.nomSinger}"></td>
+<td th:text="${p.prenomSinger}"></td>
+<td th:text="${p.dateNSinger}"></td>
+
+     <td th:if= "${!#strings.isEmpty(p.band)}" th:text="${p.band.nomBand}"></td>  
+  <td th:if= "${#strings.isEmpty(p.band)}" th:text="${'Pas de Band'}"></td>
+  
+<td sec:authorize="hasRole('ADMIN')"><a class="btn btn-danger" onclick="return confirm('Etes-vous sûr ?')" th:href="@{supprimerSinger(id=${p.idSinger},
+page=${currentPage},size=${size})}">Delete</a></td>
+<td sec:authorize="hasRole('ADMIN')"><a class="btn btn-success"
+th:href="@{modifierSinger(id=${p.idSinger})}">Edit</a></td>
+</tr>
+</table>
+<ul class="nav nav-pills">
+<li th:each="page,status:${pages}">
+<a th:class="${status.index==currentPage?'btn btn-primary':'btn' }"
+th:href="@{ ListeSinger(page=${status.index}, size=${size} ) }"
+th:text="${status.index }"></a>
+</li>
+</ul>
+
+
+
+
+<hr>
+      <center> <div th:if="${mode=='SearchBand'}">
+      <a th:href="@{ListeSinger}" ><button type="button" class="btn btn-primary">Back</button></a>
+          </div></center>
+          
+           <center> <div th:if="${mode=='SearchNomS'}">
+      <a th:href="@{ListeSinger}" ><button type="button" class="btn btn-primary">Back</button></a>
+          </div></center>
+
+
+
+</div>
+</div>
+</div>
+</div>
+</body>
+</htm>

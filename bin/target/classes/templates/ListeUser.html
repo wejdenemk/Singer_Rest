@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{template}">
+<link rel="stylesheet" type="text/css" href="webjars/bootstrap/4.3.1/css/bootstrap.min.css" />
+<head>
+<meta charset="utf-8">
+<title>Users</title>
+
+</head>
+<body>
+<div layout:fragment="Mycontent">
+    <div class="container mt-5">
+    <div class="card">
+     <div class="card-header">
+   <h1>List Users</h1>
+     </div>
+     <div class="card-body"> 
+
+     <table id="myTable" class="table table-striped">
+     <tr>
+     <th>ID</th><th>User</th><th>State</th><th>Role</th><th sec:authorize="hasRole('ADMIN')"></th>
+     </tr> 
+     <tr th:each="u:${users}">
+     <td th:text="${u.user_id}"></td>
+     <td th:text="${u.username}"></td>
+        <td th:if="${u.enabled == true}" th:text="Enabled"></td>
+        <td th:if="${u.enabled == false}" th:text="Disabled"></td>
+         <td th:text="${u.roles}"></td>
+     
+     <td sec:authorize="hasRole('ADMIN')"><a class="btn btn-danger" onclick="return confirm('Are u sure ?')" th:href="@{deleteUser(id=${u.user_id})}">Delete</a></td>
+   <td sec:authorize="hasRole('ADMIN')"><a class="btn btn-success" th:href="@{ChangeUser(id=${u.user_id})}">Edit</a></td>
+     </tr> 
+     </table>
+     
+     </div>
+    </div>
+    </div>
+    </div>
+    </body>
+</html>

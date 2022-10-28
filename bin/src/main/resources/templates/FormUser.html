@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{template}">
+<link rel="stylesheet" type="text/css"
+href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css" />
+<head>
+<meta charset="utf-8">
+<title>Users</title>
+<script>
+            function ConfirmPass(form) {
+                password1 = form.password.value;
+                password2 = form.password2.value;
+  
+                if (password1 == ''){
+                    alert ("Enter Password");
+                  return false;}
+                      
+                else if (password2 == ''){
+                    alert ("Enter Password Confirmation");
+                           return false;}
+             
+                else if (password1 != password2) {
+                    alert ("The password and confirmation password do not match!")
+                    return false;
+                }
+                else{
+	return true;
+}
+  
+            }
+        </script>
+</head>
+<body>
+<div layout:fragment="Mycontent">
+<div class="container mt-5">
+<div class="card">
+<div class="card-header" th:if="${mode=='new'}"> <center><h1>Add USER</h1></center></div>
+ <div class="card-header" th:if="${mode=='edit'}"><center><h1>Edit USER</h1></center></div>
+<div class="card-body">
+ <form th:action="@{saveUser}" method="post" onSubmit = "return ConfirmPass(this)">
+ <div class="form-group">
+<label class="control-label" hidden>ID :</label>
+<input type="hidden" name="user_id" class="form-control"
+th:value="${users.user_id}" />
+ </div>
+
+<div class="form-group">
+ <label class="control-label">Username :</label>
+ <input type="text" name="username" class="form-control" th:value="${users.username}" required />
+<span th:errors= ${users.username} class="text-danger"> </span>
+</div>
+<div class="form-group">
+ <label class="control-label">Password :</label>
+ <input type="password" name="password" class="form-control" th:value="${users.password}" />
+<span th:errors= ${users.password} class="text-danger"> </span>
+</div>
+<div class="form-group">
+ <label class="control-label">Confirm Password :</label>
+ <input type="password" name="password2" class="form-control" th:value="${users.password}" />
+<span th:errors= ${users.password} class="text-danger"> </span>
+</div>
+<div th:if="${mode!='edit'}">
+<div class="form-group"> 
+<label class="control-label">State :</label>
+ <select name="enabled" class="form-control" required>
+  <option value="0" selected>--Choose State--</option>
+ <option th:each="u : ${users}" th:value="1">Enabled</option>
+  <option th:each="u : ${users}" th:value="0">Disabled</option>
+ </select>
+</div>
+</div>
+<div th:if="${mode=='edit'}">
+<div class="form-group"> 
+<label class="control-label">State :</label>
+ <select name="enabled" class="form-control" required>
+   <option th:value="${users.enabled}" th:if="${users.enabled == true}" th:text="Enabled" selected></option>
+   <option th:value="${users.enabled}" th:if="${users.enabled == false}" th:text="Disabled" selected></option>
+ <option th:each="u : ${users}" th:value="1">Enabled</option>
+  <option th:each="u : ${users}" th:value="0">Disabled</option>
+ </select>
+</div>
+</div>
+<div th:if="${mode!='edit'}">
+<div class="form-group"> 
+<label class="control-label">Role :</label>
+ <select name="roles" class="form-control" required>
+ <option value="0" selected>--Choose Role--</option>
+ <option th:each="r : ${roles}" th:value="${r.role_id}" th:text="${r.role}"></option>
+ </select>
+</div>
+</div>
+<div th:if="${mode=='edit'}">
+<div class="form-group"> 
+<label class="control-label">Role :</label>
+ <select name="roles" class="form-control" required>
+  <option th:value="${users.roles}" th:text="${users.roles}" selected></option>
+ <option th:each="r : ${roles}" th:value="${r.role_id}" th:text="${r.role}"></option>
+ </select>
+</div>
+</div>
+ <div>
+ <button type="submit" class="btn btn-primary">Save</button>
+ </div>
+ </div>
+</form>
+</div>
+ </div>
+ </div>
+ </div>
+</body>
+</html>

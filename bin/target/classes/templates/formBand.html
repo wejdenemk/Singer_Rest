@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{template}">
+      <link rel="stylesheet" type="text/css"
+href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css"href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css" />
+<head>
+<meta charset="utf-8">
+<title>Band</title>
+</head>
+<body>
+<div layout:fragment="Mycontent">
+<div class="container mt-5">
+<div class="card">
+<div class="card">
+<div class="card-header" th:if="${mode=='new'}"><h4> <center>Add Band</center> </h4></div>
+<div class="card-header" th:if="${mode=='edit'}"><h4><center>Edit Band</center></h4>
+</div>
+<div class="card-body">
+<form th:action="@{saveBand}" method="post">
+<div class="form-group">
+<label class="control-label" hidden>ID :</label>
+<input type="hidden" name="idBand" class="form-control"
+th:value="${band.idBand}" />
+</div>
+<div class="form-group">
+<label class="control-label">Band Name:</label>
+<input type="text" name="nomBand" class="form-control"
+th:value="${band.nomBand}" />
+<span th:errors= ${band.nomBand} class="text-danger"> </span>
+</div>
+<div class="form-group">
+<label class="control-label">Music Genre :</label>
+<input type="text" name="typeMBand" class="form-control"
+th:value="${band.typeMBand}" />
+<span th:errors=${band.typeMBand} class="text-danger"> </span>
+</div>
+
+<button type="submit" class="btn btn-primary" th:if="${mode=='new'}">Add</button>
+<button type="submit" class="btn btn-primary" th:if="${mode=='edit'}">Save</button>
+</div>
+</form>
+</div>
+</div>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{template}">
+      <link rel="stylesheet" type="text/css"
+href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css"href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css" />
+<head>
+<meta charset="utf-8">
+<title>Singer</title>
+</head>
+<body>
+<div layout:fragment="Mycontent">
+<div class="container mt-5">
+<div class="card">
+<div class="card">
+<div class="card-header" th:if="${mode=='new'}"><h4><center> Add Singer</center></h4> </div>
+<div class="card-header" th:if="${mode=='edit'}"><h4><center>Edit Singer</center></h4>
+</div>
+<div class="card-body">
+<form th:action="@{saveSinger}" method="post">
+<div class="form-group">
+<label class="control-label" hidden>ID :</label>
+<input type="hidden" name="idSinger" class="form-control"
+th:value="${singer.idSinger}" />
+</div>
+<div class="form-group">
+<label class="control-label">First-Name :</label>
+<input type="text" name="nomSinger" class="form-control"
+th:value="${singer.nomSinger}" />
+<span th:errors= ${singer.nomSinger} class="text-danger"> </span>
+</div>
+<div class="form-group">
+<label class="control-label">last-Name :</label>
+<input type="text" name="prenomSinger" class="form-control"
+th:value="${singer.prenomSinger}" />
+<span th:errors=${singer.prenomSinger} class="text-danger"> </span>
+</div>
+<div class="form-group">
+<label class="control-label">Birth-Date :</label>
+<input type="date" name="dateNSinger" class="form-control"
+th:value="${singer.DateNSinger}"/>
+<span th:errors=${singer.dateNSinger} class="text-danger"> </span>
+</div>
+
+<div th:if="${mode=='new'}">
+<div class="form-group"> 
+<label class="control-label">Band :</label>
+ <select name="band" class="form-control" required>
+ <option th:each="c : ${bands}" th:value="${c.idBand}" th:text="${c.nomBand}"></option>
+ </select>
+</div>
+</div>
+
+<div th:if="${mode=='edit'}">
+<div class="form-group"> 
+<label class="control-label">Band :</label>
+ <select name="band" class="form-control" required>
+  <option th:value="${singer.band.idBand}" th:text="${singer.band.nomBand}" selected></option>
+ <option th:each="c : ${bands}" th:value="${c.idBand}" th:text="${c.nomBand}"></option>
+ </select>
+</div>
+</div>
+
+
+
+
+
+
+
+<div>
+<button type="submit" class="btn btn-primary" th:if="${mode=='new'}">Add</button>
+<button type="submit" class="btn btn-primary" th:if="${mode=='edit'}">Save</button>
+</div>
+</form>
+</div>
+</div>
+</div>
+</div>
+</body>
+</html>
