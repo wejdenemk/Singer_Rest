@@ -52,4 +52,9 @@ public List<Singer>  getSingersByBandId(@PathVariable("idBand") Long idBand) {
 return singerService.findByBandIdBand(idBand);
 }
 
+@RequestMapping(value="/singsByName/{nom}",method = RequestMethod.GET)
+public List<Singer> findByNomSingerContains(@PathVariable("nom") String nom) {
+return singerService.findByNomSingerContains(nom);
+}
+
 }

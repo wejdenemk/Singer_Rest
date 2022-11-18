@@ -6,6 +6,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 
+import com.wej.singer.entities.Band;
 import com.wej.singer.entities.Singer;
 
 @SpringBootApplication
@@ -18,6 +19,6 @@ public class SingerApplication implements CommandLineRunner {
 	}
 	@Override
 	public void run(String... args) throws Exception {
-	repositoryRestConfiguration.exposeIdsFor(Singer.class);
+	repositoryRestConfiguration.exposeIdsFor(Singer.class,Band.class);
 
 }}
